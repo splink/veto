@@ -6,34 +6,34 @@ import org.splink.veto._
 
 object NumericValidators {
 
-  def numericIsPositive[T : Numeric] = Validator[T] { (i, context) =>
+  def isPositive[T : Numeric] = Validator[T] { (i, context) =>
     if (i.abs() == i) Valid(i)
-    else Invalid(Error(context, 'numericIsPositive, Seq(i)))
+    else Invalid(Error(context, 'isPositive, Seq(i)))
   }
 
-  def numericGreaterThan[T : Numeric](value: T = 0) = Validator[T] { (i, context) =>
+  def isGreaterThan[T : Numeric](value: T) = Validator[T] { (i, context) =>
     if (i > value) Valid(i)
-    else Invalid(Error(context, 'numericGreaterThan, Seq(i, value)))
+    else Invalid(Error(context, 'isGreaterThan, Seq(i, value)))
   }
 
-  def numericGreaterOrEqual[T : Numeric](value: T = 0) = Validator[T] { (i, context) =>
+  def isGreaterOrEqual[T : Numeric](value: T) = Validator[T] { (i, context) =>
     if (i >= value) Valid(i)
-    else Invalid(Error(context, 'numericGreaterOrEqual,  Seq(i, value)))
+    else Invalid(Error(context, 'isGreaterOrEqual,  Seq(i, value)))
   }
 
-  def numericSmallerThan[T : Numeric](value: T = 0) = Validator[T] { (i, context) =>
+  def isSmallerThan[T : Numeric](value: T) = Validator[T] { (i, context) =>
     if (i < value) Valid(i)
-    else Invalid(Error(context, 'numericSmallerThan,  Seq(i, value)))
+    else Invalid(Error(context, 'isSmallerThan,  Seq(i, value)))
   }
 
-  def numericSmallerOrEqual[T : Numeric](value: T = 0) = Validator[T] { (i, context) =>
+  def isSmallerOrEqual[T : Numeric](value: T) = Validator[T] { (i, context) =>
     if (i <= value) Valid(i)
-    else Invalid(Error(context, 'numericSmallerOrEqual,  Seq(i, value)))
+    else Invalid(Error(context, 'isSmallerOrEqual,  Seq(i, value)))
   }
 
-  def numericEquals[T : Numeric](value: T = 0) = Validator[T] { (i, context) =>
+  def isEqual[T : Numeric](value: T) = Validator[T] { (i, context) =>
     if (i == value) Valid(i)
-    else Invalid(Error(context, 'numericEquals,  Seq(i, value)))
+    else Invalid(Error(context, 'isEqual,  Seq(i, value)))
   }
 
 }

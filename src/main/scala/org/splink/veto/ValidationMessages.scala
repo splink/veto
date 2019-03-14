@@ -11,12 +11,12 @@ trait ValidationMessages {
 object DefaultValidationMessages extends ValidationMessages {
   val messages = Map[Symbol, String](
     // numeric
-    'numericGreaterThan -> "Numeric '{}' must be greater than '{}'.",
-    'numericGreaterOrEqual -> "Numeric '{}' must be greater or equal to '{}'.",
-    'numericEquals -> "Numeric '{}' must be equal to '{}'.",
-    'numericSmallerThan -> "Numeric '{}' must be smaller than '{}'.",
-    'numericSmallerOrEqual -> "Numeric '{}' must be smaller or equal to '{}'.",
-    'numericIsPositive -> "Numeric '{}' must be positive.",
+    'isGreaterThan -> "'{}' must be greater than '{}'.",
+    'isGreaterOrEqual -> "'{}' must be greater or equal to '{}'.",
+    'isEqual -> "'{}' must be equal to '{}'.",
+    'isSmallerThan -> "'{}' must be smaller than '{}'.",
+    'isSmallerOrEqual -> "'{}' must be smaller or equal to '{}'.",
+    'issPositive -> "'{}' must be positive.",
     // strings
     'stringNonEmpty -> "String '{}' should not be empty.",
     'stringMinLength -> "String '{}' is to short. It should be at least '{}' chars.",
@@ -29,6 +29,7 @@ object DefaultValidationMessages extends ValidationMessages {
     'stringIsUUID -> "String '{}' is not a valid UUID.",
     // options
     'optionNonEmpty -> "Option should not be empty.",
+    'optionStringNonEmpty -> "The String inside the option should not be empty.",
     // list
     'listNonEmpty -> "List '{}' should not be empty.",
     // map
