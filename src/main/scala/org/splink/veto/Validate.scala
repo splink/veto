@@ -10,11 +10,8 @@ object Validate {
   private class ValidateImpl[T](t: T, private[this] val xs: List[T => Xor[_]] = Nil) extends Validate[T] {
 
     override def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Validate[T] = {
-      field2(f, parent.map(_.field + '.').getOrElse("") + name)(v)
-    }
-
-    def field2[U](f: T => U, name: String)(v: Validator[U]): Validate[T] = {
-      val withContext: U => Xor[U] = u => v(u, Context(t, t.getClass.getSimpleName, name, u))
+      val nameChain = parent.map(_.field + '.').getOrElse("") + name
+      val withContext: U => Xor[U] = u => v(u, Context(t, t.getClass.getSimpleName, nameChain, u))
       val pipeline = f andThen withContext
 
       new ValidateImpl(t, pipeline :: xs)
