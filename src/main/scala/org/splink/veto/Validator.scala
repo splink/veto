@@ -2,7 +2,7 @@ package org.splink.veto
 
 final case class Context(instance: Any, typ: String, field: String, value: Any)
 
-trait Validator[T] extends ((T, Context) => Xor[T]) { self =>
+trait Validator[T] { self =>
   def apply(t: T, c: Context): Xor[T]
 
   def and(v: => Validator[T]) = new Validator[T] {
