@@ -42,9 +42,9 @@ class IntegrationTest extends FlatSpec with Matchers {
   }
 
   def idValidator = Validator[Id] { (id, context) =>
-      Check(id)
-        .field(_.value, "value")(stringNonEmpty and stringIsUUID)(Some(context)) //TODO easy to forget
-        .validate
+    Check(id)
+      .field(_.value, "value")(stringNonEmpty and stringIsUUID)(Some(context)) //TODO easy to forget
+      .validate
   }
 
   object SizeValidator extends ModelValidator[Size] {
@@ -55,7 +55,6 @@ class IntegrationTest extends FlatSpec with Matchers {
         .validate
     }
   }
-
 
   "ModelValidator[Item]" should "declare a correct model Valid" in {
     val item = Item(Some(Id(UUID.randomUUID().toString)), Size(4, 4), Visible)
