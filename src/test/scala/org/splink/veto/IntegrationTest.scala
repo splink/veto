@@ -9,21 +9,17 @@ import org.splink.veto.validators.StringValidators._
 class IntegrationTest extends FlatSpec with Matchers {
 
   case class Item(id: Id, size: Size, visibility: Visibility)
-
   case class Size(width: Int, height: Int)
-
   case class Id(value: String)
 
   sealed trait Visibility
-
   case object Invisible extends Visibility
-
   case object Visible extends Visibility
 
   object ItemValidator extends ModelValidator[Item] {
     override def apply(item: Item)(implicit parent: Option[Context]) =
       Validate(item)
-        .field(_.id, "item.id")(IdValidator)
+        .field(_.id, "item.id")(idValidator)
         .field(_.size, "item.size")(SizeValidator)
         .field(item => (item.size, item.visibility), "item.visibility")(VisibilityValidator.apply)
         .validate
@@ -44,10 +40,9 @@ class IntegrationTest extends FlatSpec with Matchers {
     }
   }
 
-  object IdValidator extends ModelValidator[Id] {
-    override def apply(id: Id)(implicit parent: Option[Context] = None) =
+  def idValidator = Validator[Id] { (id, context) =>
       Validate(id)
-        .field(_.value, "value")(stringNonEmpty and stringIsUUID)
+        .field(_.value, "value")(stringNonEmpty and stringIsUUID)(Some(context)) //TODO easy to forget
         .validate
   }
 

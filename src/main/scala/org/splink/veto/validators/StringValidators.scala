@@ -20,7 +20,7 @@ object StringValidators {
 
   def stringMaxLength(value: Int = 0) = Validator[String] { (s, context) =>
     if (s.length <= value) Valid(s)
-    else Invalid(Error(context, 'stringMinLength, Seq(s, value)))
+    else Invalid(Error(context, 'stringMaxLength, Seq(s, value)))
   }
 
   def stringEquals(value: String) = Validator[String] { (s, context) =>
