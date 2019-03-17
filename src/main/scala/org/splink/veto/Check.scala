@@ -1,20 +1,20 @@
 package org.splink.veto
 
-trait Validate[T] {
-  def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Validate[T]
+trait Check[T] {
+  def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Check[T]
   def validate: Xor[T]
 }
 
-object Validate {
+object Check {
 
-  private class ValidateImpl[T](t: T, private[this] val xs: List[T => Xor[_]] = Nil) extends Validate[T] {
+  private class CheckImpl[T](t: T, private[this] val xs: List[T => Xor[_]] = Nil) extends Check[T] {
 
-    override def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Validate[T] = {
+    override def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Check[T] = {
       val nameChain = parent.map(_.field + '.').getOrElse("") + name
       val withContext: U => Xor[U] = u => v(u, Context(t, t.getClass.getSimpleName, nameChain, u))
       val pipeline = f andThen withContext
 
-      new ValidateImpl(t, pipeline :: xs)
+      new CheckImpl(t, pipeline :: xs)
     }
 
     override def validate: Xor[T] = {
@@ -33,5 +33,5 @@ object Validate {
     }
   }
 
-  def apply[T](t: T): Validate[T] = new ValidateImpl[T](t, Nil)
+  def apply[T](t: T): Check[T] = new CheckImpl[T](t, Nil)
 }

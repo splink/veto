@@ -2,7 +2,7 @@ package org.splink.veto
 
 import org.scalatest.{FlatSpec, Matchers}
 
-class ValidateTest extends FlatSpec with Matchers {
+class CheckTest extends FlatSpec with Matchers {
 
   case class Person(name: String)
 
@@ -10,10 +10,10 @@ class ValidateTest extends FlatSpec with Matchers {
     if (value.nonEmpty) Valid(value) else Invalid(Error(context, 'oopsString))
   }
 
-  "Validate" should "produce Valid if all is well" in {
+  "Check" should "produce Valid if all is well" in {
     val max = Person("max")
 
-    val result = Validate(max)
+    val result = Check(max)
       .field(_.name, "name")(nonEmptyString)
       .validate
 
@@ -23,7 +23,7 @@ class ValidateTest extends FlatSpec with Matchers {
   it should "produce Invalid if a field is invalid" in {
     val max = Person("")
 
-    val result = Validate(max)
+    val result = Check(max)
       .field(_.name, "name")(nonEmptyString)
       .validate
 
@@ -39,7 +39,7 @@ class ValidateTest extends FlatSpec with Matchers {
   it should "produce Valid if an Option field is set" in {
     val cappuccino = Coffee("italian", Some("milk-foam"))
 
-    val result = Validate(cappuccino)
+    val result = Check(cappuccino)
       .field(_.roast, "roast")(nonEmptyString)
       .field(_.topping, "topping")(nonEmptyOption[String])
       .validate
@@ -50,7 +50,7 @@ class ValidateTest extends FlatSpec with Matchers {
   it should "produce Invalid if an Option field is empty" in {
     val espresso = Coffee("italian", topping = None)
 
-    val result = Validate(espresso)
+    val result = Check(espresso)
       .field(_.roast, "roast")(nonEmptyString)
       .field(_.topping, "topping")(nonEmptyOption[String])
       .validate
@@ -61,7 +61,7 @@ class ValidateTest extends FlatSpec with Matchers {
   it should "produce Invalid with multiple errors, if multiple fields are invalid" in {
     val uhh = Coffee("", topping = None)
 
-    val result = Validate(uhh)
+    val result = Check(uhh)
       .field(_.roast, "roast")(nonEmptyString)
       .field(_.topping, "topping")(nonEmptyOption[String])
       .validate
@@ -80,7 +80,7 @@ class ValidateTest extends FlatSpec with Matchers {
   it should "produce Valid if a Seq field is set" in {
     val letters = Letters(Seq("a", "b", "c"))
 
-    val result = Validate(letters)
+    val result = Check(letters)
       .field(_.xs, "xs")(nonEmptySeq[String])
       .validate
 
@@ -90,7 +90,7 @@ class ValidateTest extends FlatSpec with Matchers {
   it should "produce Invalid if a Seq field is empty" in {
     val letters = Letters(Seq.empty[String])
 
-    val result = Validate(letters)
+    val result = Check(letters)
       .field(_.xs, "xs")(nonEmptySeq[String])
       .validate
 
