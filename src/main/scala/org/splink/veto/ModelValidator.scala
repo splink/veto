@@ -10,7 +10,7 @@ object ModelValidator {
   implicit def toModelValidator[T](v: Validator[T]): ModelValidator[T] = new ModelValidator[T] {
     override def apply(t: T)(implicit parent: Option[Context]): Xor[T] = {
       v.apply(t, parent.getOrElse {
-        Context(t, t.getClass.getSimpleName, "", t)
+        Context(t, "", t)
       })
     }
   }
