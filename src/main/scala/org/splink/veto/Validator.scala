@@ -1,6 +1,8 @@
 package org.splink.veto
 
-final case class Context(instance: Any, typ: String, field: String, value: Any)
+final case class Context(instance: Any, path: String, value: Any) {
+  def typ = instance.getClass.getSimpleName
+}
 
 trait Validator[T] { self =>
   def apply(t: T, c: Context): Xor[T]

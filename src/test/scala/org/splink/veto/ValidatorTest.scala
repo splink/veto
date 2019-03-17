@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class ValidatorTest extends FlatSpec with Matchers {
 
-  val emptyContext = Context("", "", "", "")
+  val emptyContext = Context("", "", "")
 
   val nonEmpty = Validator[String] { (s, context) =>
     if(s.length > 0) Valid(s) else Invalid(Error(context, 'lengthZero), Error(context, 'empty))

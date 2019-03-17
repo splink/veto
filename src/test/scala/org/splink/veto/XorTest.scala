@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class XorTest extends FlatSpec with Matchers {
 
-  val emptyContext = Context("", "", "", "")
+  val emptyContext = Context("", "", "")
 
   "Xor" should "map valid values" in {
     val result = Valid("value").map { value =>

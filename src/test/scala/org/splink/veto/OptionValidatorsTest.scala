@@ -6,7 +6,7 @@ import org.splink.veto.validators.NumericValidators._
 
 class OptionValidatorsTest extends FlatSpec with Matchers {
 
-  val emptyContext = Context("", "", "", "")
+  val emptyContext = Context("", "", "")
 
   "optional" should "validate the value wrapped in an Option and succeed if it is valid" in {
     val validator = optional[Int](isPositive[Int])

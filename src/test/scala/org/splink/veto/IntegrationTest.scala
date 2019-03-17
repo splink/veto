@@ -70,7 +70,7 @@ class IntegrationTest extends FlatSpec with Matchers {
 
     ItemValidator(item) should equal(
       Invalid(
-        Error(Context(item.id.get, "Id", "item.id.value", "123"), 'stringIsUUID, Seq("123"))
+        Error(Context(item.id.get, "item.id.value", "123"), 'stringIsUUID, Seq("123"))
       )
     )
   }
@@ -80,8 +80,8 @@ class IntegrationTest extends FlatSpec with Matchers {
 
     ItemValidator(item) should equal(
       Invalid(
-        Error(Context(item.id.get, "Id", "item.id.value", ""), 'stringNonEmpty, Seq("")),
-        Error(Context(item.id.get, "Id", "item.id.value", ""), 'stringIsUUID, Seq(""))
+        Error(Context(item.id.get, "item.id.value", ""), 'stringNonEmpty, Seq("")),
+        Error(Context(item.id.get, "item.id.value", ""), 'stringIsUUID, Seq(""))
       ))
   }
 
@@ -90,7 +90,7 @@ class IntegrationTest extends FlatSpec with Matchers {
 
     ItemValidator(item) should equal(
       Invalid(
-        Error(Context(item, "Item", "item.visibility", (Size(0, 0), Visible)), 'visibilitySizeZero, Seq(Visible, Size(0, 0)))
+        Error(Context(item, "item.visibility", (Size(0, 0), Visible)), 'visibilitySizeZero, Seq(Visible, Size(0, 0)))
       ))
   }
 

@@ -27,7 +27,7 @@ class CheckTest extends FlatSpec with Matchers {
       .field(_.name, "name")(nonEmptyString)
       .validate
 
-    result should equal(Invalid(Error(Context(max, "Person", "name", ""), 'oopsString)))
+    result should equal(Invalid(Error(Context(max, "name", ""), 'oopsString)))
   }
 
   case class Coffee(roast: String, topping: Option[String])
@@ -55,7 +55,7 @@ class CheckTest extends FlatSpec with Matchers {
       .field(_.topping, "topping")(nonEmptyOption[String])
       .validate
 
-    result should equal(Invalid(Error(Context(espresso, "Coffee", "topping", None), 'oopsOption)))
+    result should equal(Invalid(Error(Context(espresso, "topping", None), 'oopsOption)))
   }
 
   it should "produce Invalid with multiple errors, if multiple fields are invalid" in {
@@ -67,8 +67,8 @@ class CheckTest extends FlatSpec with Matchers {
       .validate
 
     result should equal(Invalid(
-      Error(Context(uhh, "Coffee", "roast", ""), 'oopsString),
-      Error(Context(uhh, "Coffee", "topping", None), 'oopsOption)))
+      Error(Context(uhh, "roast", ""), 'oopsString),
+      Error(Context(uhh, "topping", None), 'oopsOption)))
   }
 
   case class Letters(xs: Seq[String])
@@ -95,6 +95,6 @@ class CheckTest extends FlatSpec with Matchers {
       .validate
 
     result should equal(Invalid(Error(
-      Context(letters, "Letters", "xs", Seq.empty[String]), 'oopsSeq)))
+      Context(letters, "xs", Seq.empty[String]), 'oopsSeq)))
   }
 }

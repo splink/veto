@@ -17,8 +17,8 @@ object ListValidator {
     }
 
     def withIndex(iv: Invalid, index: Int) = Invalid(iv.errors.map { e =>
-      val field = e.context.field.replace(context.field + '.', context.field + s"[${index + 1}].")
-      e.copy(context = e.context.copy(field = field))
+      val field = e.context.path.replace(context.path + '.', context.path + s"[${index + 1}].")
+      e.copy(context = e.context.copy(path = field))
     }: _*)
 
     xs match {

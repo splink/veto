@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import org.splink.veto.validators.NumericValidators._
 
 class NumericValidatorsTest extends FlatSpec with Matchers {
-  val emptyContext = Context("", "", "", "")
+  val emptyContext = Context("", "", "")
 
   "numericIsPositive" should "return Valid, if 1 >= 0" in {
     isPositive[Int].apply(1, emptyContext) shouldBe Valid(1)
