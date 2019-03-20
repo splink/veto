@@ -9,6 +9,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "veto",
     libraryDependencies ++= Seq(
+      "org.scala-lang" % "scala-reflect" % scalaVersion.value,
       scalaTest % Test
     )
   )
