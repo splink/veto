@@ -10,7 +10,7 @@ import scala.util.Try
 object StringValidators {
   def stringNonEmpty = Validator[String] { (s, context) =>
     if (s.length > 0) Valid(s)
-    else Invalid(Error(context, 'stringNonEmpty, Seq(s)))
+    else Invalid(Error(context, 'stringNonEmpty, Seq.empty))
   }
 
   def stringMinLength(value: Int = 0) = Validator[String] { (s, context) =>
@@ -34,7 +34,7 @@ object StringValidators {
   }
 
   def stringEndsWith(value: String) = Validator[String] { (s, context) =>
-    if (s.startsWith(value)) Valid(s)
+    if (s.endsWith(value)) Valid(s)
     else Invalid(Error(context, 'stringEndsWith, Seq(s, value)))
   }
 
@@ -47,9 +47,9 @@ object StringValidators {
 
   private val hexColorPattern = Pattern.compile("""^#([A-Fa-f0-9]{2,8})$""")
 
-  def stringIsColor = Validator[String] { (s, context) =>
+  def stringIsHexColor = Validator[String] { (s, context) =>
     if(hexColorPattern.matcher(s).matches) Valid(s)
-    else Invalid(Error(context, 'stringIsColor, Seq(s)))
+    else Invalid(Error(context, 'stringIsHexColor, Seq(s)))
   }
 
   def stringIsUUID = Validator[String] { (s, context) =>

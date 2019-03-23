@@ -79,7 +79,7 @@ class IntegrationTest extends FlatSpec with Matchers {
 
     ItemValidator(item) should equal(
       Invalid(
-        Error(Context(item.id.get, "item.id.value", ""), 'stringNonEmpty, Seq("")),
+        Error(Context(item.id.get, "item.id.value", ""), 'stringNonEmpty, Seq()),
         Error(Context(item.id.get, "item.id.value", ""), 'stringIsUUID, Seq(""))
       ))
   }

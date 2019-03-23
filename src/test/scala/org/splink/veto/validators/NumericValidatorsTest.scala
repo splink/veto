@@ -1,7 +1,8 @@
-package org.splink.veto
+package org.splink.veto.validators
 
 import org.scalatest.{FlatSpec, Matchers}
 import org.splink.veto.validators.NumericValidators._
+import org.splink.veto.{Context, Error, Invalid, Valid}
 
 class NumericValidatorsTest extends FlatSpec with Matchers {
   val emptyContext = Context("", "", "")

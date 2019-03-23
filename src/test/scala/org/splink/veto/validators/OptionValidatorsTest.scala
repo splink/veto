@@ -1,8 +1,9 @@
-package org.splink.veto
+package org.splink.veto.validators
 
 import org.scalatest.{FlatSpec, Matchers}
-import org.splink.veto.validators.OptionValidators._
 import org.splink.veto.validators.NumericValidators._
+import org.splink.veto.validators.OptionValidators._
+import org.splink.veto.{Context, Error, Invalid, Valid}
 
 class OptionValidatorsTest extends FlatSpec with Matchers {
 
