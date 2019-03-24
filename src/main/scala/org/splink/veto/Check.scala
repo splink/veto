@@ -3,16 +3,17 @@ package org.splink.veto
 import scala.language.dynamics
 
 trait Check[T] {
-  def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Check[T]
+  def field[U](f: T => U, name: String)(v: Validator[U]): Check[T]
   def validate: Xor[T]
 }
 
 object Check {
 
-  private class CheckImpl[T](t: T, private[this] val fields: List[T => Xor[_]] = Nil) extends Check[T] {
+  private class CheckImpl[T](t: T, private[this] val fields: List[T => Xor[_]] = Nil)(
+    implicit parent: Option[Context] = None) extends Check[T] {
 
 
-    override def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Check[T] = {
+    override def field[U](f: T => U, name: String)(v: Validator[U]): Check[T] = {
       val path = parent.map(_.path + '.').getOrElse("") + name
       val withContext: U => Xor[U] = u => v(u, Context(t, path, u))
       val pipeline = f andThen withContext
@@ -36,5 +37,5 @@ object Check {
     }
   }
 
-  def apply[T](t: T): Check[T] = new CheckImpl[T](t, Nil)
+  def apply[T](t: T)(implicit parent: Option[Context] = None): Check[T] = new CheckImpl[T](t, Nil)
 }
