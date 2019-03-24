@@ -9,7 +9,7 @@ object ListValidator {
     else Invalid(Error(context, 'listNonEmpty, xs))
   }
 
-  def apply[T](mv: Validator[T]) = Validator[List[T]] { (xs, context) =>
+  def apply[T](validator: Validator[T]) = Validator[List[T]] { (xs, context) =>
 
     def validate(v: Xor[T]) = v match {
       case Valid(b) => Valid(List(b))
@@ -24,10 +24,10 @@ object ListValidator {
     xs match {
       case Nil => Valid(xs)
       case head :: tail =>
-        val init = validate(mv(head, context))
+        val init = validate(validator(head, context))
 
         tail.zipWithIndex.foldLeft(init) { case (acc, (next, index)) =>
-          mv(next, context) match {
+          validator(next, context) match {
             case Valid(nu) =>
               acc match {
                 case Valid(v) => Valid(nu :: v)

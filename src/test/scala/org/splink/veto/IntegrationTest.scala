@@ -12,15 +12,11 @@ import org.splink.veto.validators.ListValidator
 class IntegrationTest extends FlatSpec with Matchers {
 
   case class Item(id: Option[Id], size: Size, visibility: Visibility, more: List[Item])
-
   case class Size(width: Int, height: Int)
-
   case class Id(value: String)
 
   sealed trait Visibility
-
   case object Invisible extends Visibility
-
   case object Visible extends Visibility
 
   object ItemValidator extends ModelValidator[Item] {
@@ -28,24 +24,23 @@ class IntegrationTest extends FlatSpec with Matchers {
       Check(item)
         .field(_.id, "id")(optional(IdValidator))
         .field(_.size, "size")(SizeValidator)
-        .field(item => (item.size, item.visibility), "visibility")(VisibilityValidator.apply)
+        .field(item => (item.size, item.visibility), "visibility")(VisibilityValidator)
         .field(_.more, "more")(ListValidator(ItemValidator))
         .validate
   }
 
-  object VisibilityValidator {
-    def apply = Validator[(Size, Visibility)] {
-      case ((size, visibility), context) =>
-        visibility match {
-          case Invisible =>
-            Valid(size, visibility)
-          case Visible if size.width > 0 && size.height > 0 =>
-            Valid(size, visibility)
-          case _ => Invalid(
-            Error(context, 'visibilitySizeZero, Seq(visibility, size))
-          )
-        }
-    }
+
+  def VisibilityValidator = Validator[(Size, Visibility)] {
+    case ((size, visibility), context) =>
+      visibility match {
+        case Invisible =>
+          Valid(size, visibility)
+        case Visible if size.width > 0 && size.height > 0 =>
+          Valid(size, visibility)
+        case _ => Invalid(
+          Error(context, 'visibilitySizeZero, Seq(visibility, size))
+        )
+      }
   }
 
   object IdValidator extends ModelValidator[Id] {

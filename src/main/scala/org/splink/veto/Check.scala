@@ -11,6 +11,7 @@ object Check {
 
   private class CheckImpl[T](t: T, private[this] val fields: List[T => Xor[_]] = Nil) extends Check[T] {
 
+
     override def field[U](f: T => U, name: String)(v: Validator[U])(implicit parent: Option[Context] = None): Check[T] = {
       val path = parent.map(_.path + '.').getOrElse("") + name
       val withContext: U => Xor[U] = u => v(u, Context(t, path, u))

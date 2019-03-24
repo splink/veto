@@ -5,6 +5,7 @@ final case class Context(instance: Any, path: String, value: Any) {
 }
 
 trait Validator[T] { self =>
+
   def apply(t: T, c: Context): Xor[T]
 
   def and(v: => Validator[T]) = new Validator[T] {

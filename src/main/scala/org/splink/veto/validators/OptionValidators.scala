@@ -16,13 +16,4 @@ object OptionValidators {
       Valid(opt)
     }
   }
-
-  def optionalModel[T](mv: ModelValidator[T]) = Validator[Option[T]] { (opt, context) =>
-    opt.map { m =>
-      mv(m, context).map(Some(_))
-    }.getOrElse {
-      Valid(opt)
-    }
-  }
-
 }
