@@ -6,7 +6,7 @@ import org.splink.veto.validators.ListValidator._
 import org.splink.veto.validators.OptionValidator._
 import org.splink.veto.validators.StringValidators._
 
-class ListValdatorsTest extends FlatSpec with Matchers {
+class ListValdatorTest extends FlatSpec with Matchers {
   val emptyContext = Context("", "", "")
 
   "ListValidator.nonEmpty" should "return Valid if the List is not empty" in {

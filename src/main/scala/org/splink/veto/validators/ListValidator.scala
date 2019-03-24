@@ -13,12 +13,12 @@ object ListValidator {
 
     def validate(v: Xor[T]) = v match {
       case Valid(x) => Valid(List(x))
-      case i: Invalid => withIndex(i, index = -1)
+      case i: Invalid => updatePath(i, index = 0)
     }
 
-    def withIndex(iv: Invalid, index: Int) = Invalid(iv.errors.map { e =>
+    def updatePath(iv: Invalid, index: Int) = Invalid(iv.errors.map { e =>
       val currentPath = context.path
-      val newPath = context.path + s"[${index + 1}]"
+      val newPath = context.path + s"[$index]"
       val field = if (currentPath.length > 0 && e.context.path.contains(currentPath)) {
         e.context.path.replace(currentPath, newPath)
       } else {
@@ -45,8 +45,8 @@ object ListValidator {
               }
             case iv: Invalid =>
               acc match {
-                case Valid(_) => withIndex(iv, index)
-                case iv1: Invalid => Invalid(iv1.errors ++ withIndex(iv, index).errors: _*)
+                case Valid(_) => updatePath(iv, index + 1)
+                case iv1: Invalid => Invalid(iv1.errors ++ updatePath(iv, index + 1).errors: _*)
               }
           }
         }

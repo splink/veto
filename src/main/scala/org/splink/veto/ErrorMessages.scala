@@ -4,11 +4,11 @@ trait ErrorMsg {
   def apply(key: Symbol, args: Any*): String
 }
 
-trait ValidationMessages {
-  implicit def invalidMsg: ErrorMsg
+trait ErrorMessages {
+  implicit def errorMessage: ErrorMsg
 }
 
-object DefaultValidationMessages extends ValidationMessages {
+object DefaultErrorMessages extends ErrorMessages {
   val messages = Map[Symbol, String](
     // numeric
     'isGreaterThan -> "'{}' must be greater than '{}'.",
@@ -33,11 +33,12 @@ object DefaultValidationMessages extends ValidationMessages {
     // list
     'listNonEmpty -> "List '{}' should not be empty.",
     // map
-    'mapNonEmpty -> "Map '{}' should not be empty."
+    'mapNonEmpty -> "Map '{}' should not be empty.",
+    'mapMissingKey -> "Map '{}' should contain the key '{}'."
   )
 
 
-  override implicit def invalidMsg = new ErrorMsg {
+  override implicit def errorMessage = new ErrorMsg {
     override def apply(key: Symbol, values: Any*) = {
       values.foldLeft(messages(key)) { (acc, next) =>
         acc.replaceFirst("""{}""", next.toString)
