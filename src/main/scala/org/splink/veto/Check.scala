@@ -1,7 +1,5 @@
 package org.splink.veto
 
-import scala.language.dynamics
-
 trait Check[T] {
   def field[U](f: T => U, name: String)(v: Validator[U]): Check[T]
   def validate: Xor[T]

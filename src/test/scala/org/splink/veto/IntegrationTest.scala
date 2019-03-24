@@ -5,7 +5,7 @@ import java.util.UUID
 import org.scalatest.{FlatSpec, Matchers}
 import org.splink.veto.validators.NumericValidators._
 import org.splink.veto.validators.StringValidators._
-import org.splink.veto.validators.OptionValidators._
+import org.splink.veto.validators.OptionValidator._
 import org.splink.veto.validators.ListValidator
 
 

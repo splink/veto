@@ -2,7 +2,7 @@ package org.splink.veto.validators
 
 import org.splink.veto._
 
-object OptionValidators {
+object OptionValidator {
 
   def optionNonEmpty[T] = Validator[Option[T]] { (opt, context) =>
     if (opt.nonEmpty) Valid(opt)
