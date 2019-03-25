@@ -6,7 +6,7 @@ import org.scalatest.{FlatSpec, Matchers}
 import org.splink.veto.validators.NumericValidators._
 import org.splink.veto.validators.StringValidators._
 import org.splink.veto.validators.OptionValidator._
-import org.splink.veto.validators.ListValidator
+import org.splink.veto.validators.DsValidators._
 
 
 class IntegrationTest extends FlatSpec with Matchers {
@@ -25,7 +25,7 @@ class IntegrationTest extends FlatSpec with Matchers {
         .field(_.id, "id")(optional(IdValidator))
         .field(_.size, "size")(SizeValidator)
         .field(item => (item.size, item.visibility), "visibility")(VisibilityValidator)
-        .field(_.more, "more")(ListValidator(ItemValidator))
+        .field(_.more, "more")(listValidator(ItemValidator))
         .validate
   }
 
