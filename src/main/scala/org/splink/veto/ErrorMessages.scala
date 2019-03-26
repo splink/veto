@@ -24,7 +24,7 @@ object DefaultErrorMessages extends ErrorMessages {
     'stringEquals -> "String '{}' should be equal to '{}'.",
     'stringStartsWith -> "String '{}' should start with '{}'.",
     'stringEndsWith -> "String '{}' should end with '{}'.",
-    'stringContains -> "String'{}' should contain '{}'",
+    'stringContains -> "String'{}' should contain '{}'.",
     'stringIsUrl -> "String '{}' is not an URL.",
     'stringIsHexColor -> "String '{}' is not a Hex-Color representation e.g. #ffffff, #5042f4 or #fff.",
     'stringIsUUID -> "String '{}' is not a valid UUID.",
@@ -36,7 +36,7 @@ object DefaultErrorMessages extends ErrorMessages {
     // map
     'mapNonEmpty -> "Map '{}' should not be empty.",
     'mapMissingKey -> "Map '{}' should contain the key '{}'.",
-    'listMissingElement -> "List '{} should contain the element '{}'"
+    'listMissingElement -> "List '{} should contain the element '{}'."
   )
 
 
