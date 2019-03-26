@@ -11,7 +11,12 @@ import org.splink.veto.validators.DsValidators._
 
 class IntegrationTest extends FlatSpec with Matchers {
 
-  case class Item(id: Option[Id], size: Size, visibility: Visibility, more: List[Item])
+  case class Item(id: Option[Id],
+                  size: Size,
+                  visibility: Visibility,
+                  more: List[Item],
+                  attrs: Map[String, String] = Map.empty)
+
   case class Size(width: Int, height: Int)
   case class Id(value: String)
 
@@ -26,6 +31,7 @@ class IntegrationTest extends FlatSpec with Matchers {
         .field(_.size, "size")(SizeValidator)
         .field(item => (item.size, item.visibility), "visibility")(VisibilityValidator)
         .field(_.more, "more")(listValidator(ItemValidator))
+        .field(_.attrs, "attrs")(mapValidator(tuple2Key(stringContains("test"))))
         .validate
   }
 
@@ -70,7 +76,7 @@ class IntegrationTest extends FlatSpec with Matchers {
   }
 
   it should "output a validation error if a model is Invalid" in {
-    val item = Item(Some(Id("123")), Size(4, 4), Visible, Nil)
+    val item = Item(Some(Id("123")), Size(4, 4), Visible, Nil, Map("test" -> "world"))
 
     ItemValidator(item) should equal(
       Invalid(
@@ -80,12 +86,13 @@ class IntegrationTest extends FlatSpec with Matchers {
   }
 
   it should "output all validation errors if a model has multiple invalid fields" in {
-    val item = Item(Some(Id("")), Size(4, 4), Visible, Nil)
+    val item = Item(Some(Id("")), Size(4, 4), Visible, Nil, Map("hello" -> "world"))
 
     ItemValidator(item) should equal(
       Invalid(
         Error(Context(item.id.get, "id.value", ""), 'stringNonEmpty, Seq()),
-        Error(Context(item.id.get, "id.value", ""), 'stringIsUUID, Seq(""))
+        Error(Context(item.id.get, "id.value", ""), 'stringIsUUID, Seq("")),
+        Error(Context(item, "attrs[hello]", item.attrs), 'stringContains, Seq("hello", "test"))
       ))
   }
 

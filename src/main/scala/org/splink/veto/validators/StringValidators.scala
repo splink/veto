@@ -38,6 +38,11 @@ object StringValidators {
     else Invalid(Error(context, 'stringEndsWith, Seq(s, value)))
   }
 
+  def stringContains(value: String) = Validator[String] { (s, context) =>
+    if (s.contains(value)) Valid(s)
+    else Invalid(Error(context, 'stringContains, Seq(s, value)))
+  }
+
   private val urlPattern = Pattern.compile("""^(http|https):\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?$""")
 
   def stringIsUrl = Validator[String] { (s, context) =>

@@ -61,6 +61,15 @@ class StringValidatorsTest extends FlatSpec with Matchers {
       Invalid(Error(emptyContext, 'stringEndsWith, Seq("hi world", "world!")))
   }
 
+  "stringContains" should "return Valid, if the String ends with the value" in {
+    stringContains("world").apply("hello world", emptyContext) shouldBe Valid("hello world")
+  }
+
+  it should "return Invalid, if the String does not end with the value" in {
+    stringContains("hello").apply("hi world", emptyContext) shouldBe
+      Invalid(Error(emptyContext, 'stringContains, Seq("hi world", "hello")))
+  }
+
   "stringIsUrl" should "return Valid, if the String is an URL" in {
     stringIsUrl.apply("https://some-url.com", emptyContext) shouldBe Valid("https://some-url.com")
   }
