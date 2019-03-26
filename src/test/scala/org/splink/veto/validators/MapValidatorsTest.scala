@@ -9,7 +9,7 @@ import org.splink.veto.validators.DsValidators._
 class MapValidatorsTest extends FlatSpec with Matchers {
   val emptyContext = Context("", "", "")
 
-  "MapValidator.nonEmpty" should "return Valid if the map is not empty" in {
+  "mapNonEmpty" should "return Valid if the map is not empty" in {
     val map = Map(1 -> "max")
 
     mapNonEmpty(map, emptyContext) shouldBe
@@ -23,7 +23,7 @@ class MapValidatorsTest extends FlatSpec with Matchers {
       Invalid(Error(emptyContext, 'mapNonEmpty))
   }
 
-  "MapValidator.mapContainsKey" should "return Valid if the map contains the given key" in {
+  "mapContainsKey" should "return Valid if the map contains the given key" in {
     val map = Map(1 -> "max")
 
     mapContainsKey(1)(map, emptyContext) shouldBe

@@ -11,6 +11,11 @@ object DsValidators {
     else Invalid(Error(context, 'listNonEmpty, xs))
   }
 
+  def listContainsElement[T](element: T) = Validator[List[T]] { (xs, context) =>
+    if (xs.contains(element)) Valid(xs)
+    else Invalid(Error(context, 'listMissingElement, Seq(xs, element)))
+  }
+
   def mapNonEmpty[K, V] = Validator[Map[K, V]] { (map, context) =>
     if (map.nonEmpty) Valid(map)
     else Invalid(Error(context, 'mapNonEmpty, Seq.empty))

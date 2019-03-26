@@ -9,13 +9,27 @@ import org.splink.veto.validators.DsValidators._
 class ListValidatorsTest extends FlatSpec with Matchers {
   val emptyContext = Context("", "", "")
 
-  "ListValidator.nonEmpty" should "return Valid if the List is not empty" in {
+  "listNonEmpty" should "return Valid if the List is not empty" in {
     listNonEmpty.apply(List(1, 2, 3), emptyContext) shouldBe Valid(List(1, 2, 3))
   }
 
   it should "return Invalid if the List is empty" in {
     listNonEmpty.apply(Nil, emptyContext) shouldBe
       Invalid(Error(emptyContext, 'listNonEmpty, Nil))
+  }
+
+  "listContainsElement" should "return Valid if the list contains the given element" in {
+    val xs = List("max")
+
+    listContainsElement("max")(xs, emptyContext) shouldBe
+      Valid(xs)
+  }
+
+  it should "return Invalid if the list does not contain the given element" in {
+    val xs = List("max")
+
+    listContainsElement("anna")(xs, emptyContext) shouldBe
+      Invalid(Error(emptyContext, 'listMissingElement, Seq(xs, "anna")))
   }
 
   "ListValidator" should "return Valid if the List contains multiple Valid elements" in {

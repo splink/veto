@@ -34,7 +34,8 @@ object DefaultErrorMessages extends ErrorMessages {
     'listNonEmpty -> "List '{}' should not be empty.",
     // map
     'mapNonEmpty -> "Map '{}' should not be empty.",
-    'mapMissingKey -> "Map '{}' should contain the key '{}'."
+    'mapMissingKey -> "Map '{}' should contain the key '{}'.",
+    'listMissingElement -> "List '{} should contain the element '{}'"
   )
 
 
