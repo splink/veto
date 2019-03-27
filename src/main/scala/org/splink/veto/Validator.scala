@@ -7,6 +7,7 @@ final case class Context(instance: Any, path: String, value: Any) {
 trait Validator[T] { self =>
 
   def apply(t: T, c: Context): Xor[T]
+  def apply(value: T): Xor[T] = apply(value, Context("", "", ""))
 
   def and(v: => Validator[T]) = new Validator[T] {
     override def apply(t: T, c: Context): Xor[T] = self(t, c) match {
@@ -37,6 +38,7 @@ object Validator {
   def apply[T](f: (T, Context) => Xor[T]) = new Validator[T] {
     override def apply(value: T, context: Context) = f(value, context)
   }
+
 
   def valid[T] = new Validator[T] {
     override def apply(value: T, context: Context): Xor[T] = Valid(value)

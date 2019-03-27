@@ -16,7 +16,7 @@ object DefaultErrorMessages extends ErrorMessages {
     'isEqual -> "'{}' should be equal to '{}'.",
     'isSmallerThan -> "'{}' should be smaller than '{}'.",
     'isSmallerOrEqual -> "'{}' should be smaller or equal to '{}'.",
-    'issPositive -> "'{}' should be positive.",
+    'isPositive -> "'{}' should be positive.",
     // strings
     'stringNonEmpty -> "String should not be empty.",
     'stringMinLength -> "String '{}' is to short. It should be at least '{}' chars.",

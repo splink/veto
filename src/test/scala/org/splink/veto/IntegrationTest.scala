@@ -8,7 +8,6 @@ import org.splink.veto.validators.StringValidators._
 import org.splink.veto.validators.OptionValidator._
 import org.splink.veto.validators.DsValidators._
 
-
 class IntegrationTest extends FlatSpec with Matchers {
 
   case class Item(id: Option[Id],

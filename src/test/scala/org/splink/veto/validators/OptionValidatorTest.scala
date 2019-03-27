@@ -11,12 +11,12 @@ class OptionValidatorTest extends FlatSpec with Matchers {
 
   "optional" should "validate the value wrapped in an Option and succeed if it is valid" in {
     val validator = optional[Int](isPositive[Int])
-    validator(Some(1), emptyContext) should equal(Valid(Some(1)))
+    validator(Some(1)) should equal(Valid(Some(1)))
   }
 
   it should "validate the value wrapped in an Option and fail if it is invalid" in {
     val validator = optional[Int](isPositive[Int])
-    validator(Some(-1), emptyContext) should equal(
+    validator(Some(-1)) should equal(
       Invalid(
         Error(emptyContext, 'isPositive, Seq(-1))
       )
@@ -25,7 +25,7 @@ class OptionValidatorTest extends FlatSpec with Matchers {
 
   it should "fail if combined with a optionNonEmpty" in {
     val validator = optional[Int](isPositive[Int]) and optionNonEmpty
-    validator(None, emptyContext) should equal(
+    validator(None) should equal(
       Invalid(
         Error(emptyContext, 'optionNonEmpty, Seq())
       )

@@ -10,68 +10,68 @@ class ListValidatorsTest extends FlatSpec with Matchers {
   val emptyContext = Context("", "", "")
 
   "listNonEmpty" should "return Valid if the List is not empty" in {
-    listNonEmpty.apply(List(1, 2, 3), emptyContext) shouldBe Valid(List(1, 2, 3))
+    listNonEmpty(List(1, 2, 3)) shouldBe Valid(List(1, 2, 3))
   }
 
   it should "return Invalid if the List is empty" in {
-    listNonEmpty.apply(Nil, emptyContext) shouldBe
+    listNonEmpty(Nil) shouldBe
       Invalid(Error(emptyContext, 'listNonEmpty, Nil))
   }
 
   "listContainsElement" should "return Valid if the list contains the given element" in {
     val xs = List("max")
 
-    listContainsElement("max")(xs, emptyContext) shouldBe
+    listContainsElement("max")(xs) shouldBe
       Valid(xs)
   }
 
   it should "return Invalid if the list does not contain the given element" in {
     val xs = List("max")
 
-    listContainsElement("anna")(xs, emptyContext) shouldBe
+    listContainsElement("anna")(xs) shouldBe
       Invalid(Error(emptyContext, 'listMissingElement, Seq(xs, "anna")))
   }
 
   "ListValidator" should "return Valid if the List contains multiple Valid elements" in {
-    listValidator[String](stringNonEmpty)(List("hello", "world", "!"), emptyContext) shouldBe
+    listValidator[String](stringNonEmpty)(List("hello", "world", "!")) shouldBe
       Valid(List("hello", "world", "!"))
   }
 
   it should "return Valid if the List contains one Valid element" in {
-    listValidator[String](stringNonEmpty)(List("hello"), emptyContext) shouldBe Valid(List("hello"))
+    listValidator[String](stringNonEmpty)(List("hello")) shouldBe Valid(List("hello"))
   }
 
   it should "return Valid if the List is empty" in {
-    listValidator[String](stringNonEmpty)(Nil, emptyContext) shouldBe Valid(Nil)
+    listValidator[String](stringNonEmpty)(Nil) shouldBe Valid(Nil)
   }
 
   it should "return Invalid if the first element in the List is Invalid" in {
-    listValidator[String](stringNonEmpty)(List("", "world"), emptyContext) shouldBe
+    listValidator[String](stringNonEmpty)(List("", "world")) shouldBe
       Invalid(Error(emptyContext.copy(path = "[0]"), 'stringNonEmpty, ""))
   }
 
   it should "return Invalid if one of the elements in the List is Invalid" in {
-    listValidator[String](stringNonEmpty)(List("hello", "world", ""), emptyContext) shouldBe
+    listValidator[String](stringNonEmpty)(List("hello", "world", "")) shouldBe
       Invalid(Error(emptyContext.copy(path = "[2]"), 'stringNonEmpty, ""))
   }
 
   it should "return Valid if a nested List contains valid elements" in {
-    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(List("hello", "world", "!")), emptyContext) shouldBe
+    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(List("hello", "world", "!"))) shouldBe
       Valid(List(List("hello", "world", "!")))
   }
 
   it should "return Valid if a nested List contains one valid element" in {
-    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(List("hello")), emptyContext) shouldBe
+    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(List("hello"))) shouldBe
       Valid(List(List("hello")))
   }
 
   it should "return Valid if a nested List is empty" in {
-    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(Nil), emptyContext) shouldBe
+    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(Nil)) shouldBe
       Valid(List(Nil))
   }
 
   it should "return Invalid if the first element in the nested List is Invalid" in {
-    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(List("")), emptyContext) shouldBe
+    listValidator[List[String]](listValidator[String](stringNonEmpty))(List(List(""))) shouldBe
       Invalid(Error(emptyContext.copy(path = "[0][0]"), 'stringNonEmpty, ""))
   }
 
