@@ -1,7 +1,7 @@
 package org.splink.veto
 
 trait ErrorMsg {
-  def apply(key: Symbol, args: Any*): String
+  def apply(key: Symbol, args: Seq[Any]): String
 }
 
 trait ErrorMessages {
@@ -11,12 +11,12 @@ trait ErrorMessages {
 object DefaultErrorMessages extends ErrorMessages {
   val messages = Map[Symbol, String](
     // numeric
-    'isGreaterThan -> "'{}' must be greater than '{}'.",
-    'isGreaterOrEqual -> "'{}' must be greater or equal to '{}'.",
-    'isEqual -> "'{}' must be equal to '{}'.",
-    'isSmallerThan -> "'{}' must be smaller than '{}'.",
-    'isSmallerOrEqual -> "'{}' must be smaller or equal to '{}'.",
-    'issPositive -> "'{}' must be positive.",
+    'isGreaterThan -> "'{}' should be greater than '{}'.",
+    'isGreaterOrEqual -> "'{}' should be greater or equal to '{}'.",
+    'isEqual -> "'{}' should be equal to '{}'.",
+    'isSmallerThan -> "'{}' should be smaller than '{}'.",
+    'isSmallerOrEqual -> "'{}' should be smaller or equal to '{}'.",
+    'issPositive -> "'{}' should be positive.",
     // strings
     'stringNonEmpty -> "String should not be empty.",
     'stringMinLength -> "String '{}' is to short. It should be at least '{}' chars.",
@@ -41,9 +41,13 @@ object DefaultErrorMessages extends ErrorMessages {
 
 
   override implicit def errorMessage = new ErrorMsg {
-    override def apply(key: Symbol, values: Any*) = {
-      values.foldLeft(messages(key)) { (acc, next) =>
-        acc.replaceFirst("""{}""", next.toString)
+    override def apply(key: Symbol, args: Seq[Any]) = {
+      messages.get(key).map { message =>
+        args.foldLeft(message) { (acc, next) =>
+          acc.replaceFirst("\\{\\}", next.toString)
+        }
+      }.getOrElse {
+        key.toString
       }
     }
   }
