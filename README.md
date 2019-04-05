@@ -18,7 +18,8 @@ object SizeValidator extends ModelValidator[Size] {
 
 val size = Size(0, 6)
 
-SizeValidator(size) match {
+val result: Xor[Size] = SizeValidator(size) 
+result match {
   case Valid(s) =>
     println(s"valid $s")
   case iv: Invalid =>
@@ -31,20 +32,25 @@ SizeValidator(size) match {
 
 ##### Validate values wrapped in Option
 ~~~scala
-optional(isPositive[Int])(Some(-1))
+val validator: Validator[Option[Int]] = optional(isPositive[Int])
+val result: Xor[Option[Int]] = validator(Some(-1))
 ~~~
 
 ##### Validate elements in a List
 ~~~scala
-listValidator(SizeValidator)(List(Size(0, 0), Size(1, 0)))
+val validator: Validator[List[Size]] = listValidator(SizeValidator)
+val result: Xor[List[Size]] = validator(List(Size(0, 0), Size(1, 0)))
 ~~~
 
 ##### Validate keys or values in a Map
 ~~~scala
 // pick the values
-mapValidator[String, Size](tuple2Value(SizeValidator))(Map("one" -> Size(0, 0)))
+val validator: Validator[Map[String, Size]] = mapValidator[String, Size](tuple2Value(stringContains("one")))
+val result: Xor[Map[String, Size]] = validator(Map("one" -> Size(0, 0)))
 // pick the keys
-mapValidator[String, Size](tuple2Key(stringContains("one")))(Map("one" -> Size(0, 0)))
+val validator: Validator[Map[String, Size]] = mapValidator[String, Size](tuple2Key(stringContains("one")))
+val result: Xor[Map[String, Size]] = validator(Map("one" -> Size(0, 0)))
+
 ~~~
 
 ##### Recursive fields are supported
