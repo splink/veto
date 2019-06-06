@@ -1,5 +1,7 @@
 package org.splink.veto
 
+import scala.language.implicitConversions
+
 trait ModelValidator[T] {
   def apply(t: T)(implicit parent: Option[Context] = None): Xor[T]
 }

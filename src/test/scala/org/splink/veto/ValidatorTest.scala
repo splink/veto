@@ -15,7 +15,7 @@ class ValidatorTest extends FlatSpec with Matchers {
   }
 
   val longString = Validator[String] { (s, context) =>
-    if(s.length > 100) Valid(s) else Invalid(Error(context, 'tooShort), Error(context, 'mustbeVeryLong))
+    if(s.length > 100) Valid(s) else Invalid(Error(context, 'tooShort), Error(context, 'mustBeVeryLong))
   }
 
   "Validator" should "return a Valid Instance if the validation succeeds" in {
@@ -40,13 +40,13 @@ class ValidatorTest extends FlatSpec with Matchers {
   it should "return Invalid if both of two 'and' - combined Validators fail and include all error messages" in {
     val combined = (longString and lowerCase)("HELLO")
     combined should equal(
-      Invalid(Error(emptyContext, 'tooShort), Error(emptyContext, 'mustbeVeryLong), Error(emptyContext, 'notLowerCase)))
+      Invalid(Error(emptyContext, 'tooShort), Error(emptyContext, 'mustBeVeryLong), Error(emptyContext, 'notLowerCase)))
   }
 
   it should "return Invalid if both of two 'or' - combined Validators fail and include all error messages" in {
     val combined = (longString or lowerCase)("HELLO")
     combined should equal(
-      Invalid(Error(emptyContext, 'tooShort), Error(emptyContext, 'mustbeVeryLong), Error(emptyContext, 'notLowerCase)))
+      Invalid(Error(emptyContext, 'tooShort), Error(emptyContext, 'mustBeVeryLong), Error(emptyContext, 'notLowerCase)))
   }
 
   it should "return Valid if only one of two 'or' - combined Validators fails" in {
