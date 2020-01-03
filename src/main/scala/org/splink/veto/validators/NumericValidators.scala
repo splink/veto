@@ -7,7 +7,7 @@ import org.splink.veto._
 object NumericValidators {
 
   def isPositive[T : Numeric] = Validator[T] { (i, context) =>
-    if (i.abs() == i) Valid(i)
+    if (i.abs == i) Valid(i)
     else Invalid(Error(context, 'isPositive, Seq(i)))
   }
 
